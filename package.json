@@ -14,10 +14,14 @@
   ],
   "author": "Akshit",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "dotenv": "^14.3.0",
     "express": "^4.17.2",
-    "mongoose": "^6.1.8"
+    "express-session": "^1.17.2",
+    "mongoose": "^6.1.8",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0"
