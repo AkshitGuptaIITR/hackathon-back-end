@@ -47,8 +47,8 @@ const userSchema = new mongoose.Schema(
     },
     photo: String,
     college: {
-      type: String,
-      required: [true, 'Please provide your college info.']
+      type: mongoose.Schema.ObjectId,
+      required: 'College'
     }
   },
   {

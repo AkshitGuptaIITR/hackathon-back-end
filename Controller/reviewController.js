@@ -1,4 +1,5 @@
 const Review = require("../Models/reviewModel");
+const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
@@ -42,4 +43,11 @@ exports.getAllReviewsByUser = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.createReview = catchAsync(async (req,res,next) => {
+  const {canteenId, userId} = req.params.id;
+
+  if(!canteenId || !userId){
+    return next(new AppError('Please provide '))
+  }
+})
 

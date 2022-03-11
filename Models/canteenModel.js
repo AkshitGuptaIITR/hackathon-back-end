@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const menuSchema = new mongoose.Schema({
   price: {
     type: Number,
-    required: "Please provide price.",
+    required: [true, "Please provide price."],
   },
   name: {
     type: String,
     required: [true, "Please enter name of Object."],
   },
+  photo: String
 });
 
 const canteenSchema = new mongoose.Schema({
@@ -27,7 +28,11 @@ const canteenSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "review",
   },
-},{
+  college: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'College'
+  }
+}, {
   timestamps: true
 });
 

@@ -55,7 +55,6 @@ console.log(process.env.NODE_ENV);
 
 app.use("/test", (req, res) => {
   res.send("Working");
-  console.log(req.session);
 });
 
 app.use(express.json({ limit: "8mb" }));
