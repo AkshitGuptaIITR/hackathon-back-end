@@ -1,6 +1,5 @@
 const express = require("express");
 const dotenv = require("dotenv");
-let morgan = require("morgan");
 const cors = require("cors");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -53,10 +52,6 @@ app.use(
 app.use(cors(corsOptionsDelegate));
 
 console.log(process.env.NODE_ENV);
-
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
 
 app.use("/test", (req, res) => {
   res.send("Working");

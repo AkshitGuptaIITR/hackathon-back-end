@@ -23,8 +23,7 @@
     "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.8",
-    "validator": "^13.7.0",
-    "morgan": "^1.10.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0"
