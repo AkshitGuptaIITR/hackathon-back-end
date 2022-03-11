@@ -45,7 +45,11 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    photo: String
+    photo: String,
+    college: {
+      type: String,
+      required: [true, 'Please provide your college info.']
+    }
   },
   {
     timestamps: true,
