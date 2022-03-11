@@ -5,7 +5,7 @@ const {
   restrictTo,
   signup,
   login,
-} = require("../controller/authController");
+} = require("../Controller/authController");
 const { getAllUser } = require("../Controller/userController");
 
 router.route("/signup").post(signup);
