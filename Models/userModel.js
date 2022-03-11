@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcrypt");
 
-const userSchema = new mongoose.model({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please Enter Your Name"],
@@ -23,10 +25,18 @@ const userSchema = new mongoose.model({
     minlength: [8, "password Length must be 8 characters"],
     select: false, // not displaying the password to the user or in the response
   },
-  typeOfUser: {
+  role: {
     type: String,
     enum: ["admin", "canteenWorker", "student"],
     default: "student",
+  },
+  orders: {
+    type: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Orders",
+      },
+    ],
   },
 });
 

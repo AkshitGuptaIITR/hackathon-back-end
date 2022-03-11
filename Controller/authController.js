@@ -16,7 +16,7 @@ const signToken = (id) => {
   );
 };
 
-const createAndSendToken = async (user, statusCode, res) => {
+const createAndSendToken = async (user, statusCode, res, req) => {
   const token = signToken(user._id);
 
   const cookieOptions = {
@@ -25,6 +25,8 @@ const createAndSendToken = async (user, statusCode, res) => {
     ),
     httpOnly: true,
   };
+
+  req.session.token = token;
 
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
@@ -44,31 +46,8 @@ const createAndSendToken = async (user, statusCode, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const { password, passwordConfirm } = req.body;
 
-  req.body.role = "admin";
-  req.body.email = req.body.email.toLowerCase();
-
-  if (!passwordConfirm) {
-    return next(
-      new AppError("Please enter password and password Confirm."),
-      400
-    );
-  }
-
-  if (passwordConfirm !== password) {
-    return next(
-      new AppError("Password and Password confirm doesnot match", 400)
-    );
-  }
-
-  const newUser = await User.create(req.body);
-  createAndSendToken(newUser, 201, res);
-});
-
-exports.signupCustomer = catchAsync(async (req, res, next) => {
-  const { password, passwordConfirm } = req.body;
-
-  req.body.email = req.body.email.toLowerCase();
   req.body.role = undefined;
+  req.body.email = req.body.email.toLowerCase();
 
   if (!passwordConfirm) {
     return next(
@@ -84,13 +63,43 @@ exports.signupCustomer = catchAsync(async (req, res, next) => {
   }
 
   const newUser = await User.create(req.body);
-  createAndSendToken(newUser, 201, res);
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      user: newUser,
+    },
+  });
 });
+
+// exports.signupCustomer = catchAsync(async (req, res, next) => {
+//   const { password, passwordConfirm } = req.body;
+
+//   req.body.email = req.body.email.toLowerCase();
+//   req.body.role = undefined;
+
+//   if (!passwordConfirm) {
+//     return next(
+//       new AppError("Please enter password and password Confirm."),
+//       400
+//     );
+//   }
+
+//   if (passwordConfirm !== password) {
+//     return next(
+//       new AppError("Password and Password confirm doesnot match", 400)
+//     );
+//   }
+
+//   const newUser = await User.create(req.body);
+//   createAndSendToken(newUser, 201, res);
+// });
 
 exports.login = catchAsync(async (req, res, next) => {
   let { email, password } = req.body;
 
-  email = email.toLowerCase()
+  email = email.toLowerCase();
+
   if (!email || !password) {
     return next(new AppError("Please provide email and password", 400));
   }
@@ -101,7 +110,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
   }
 
-  createAndSendToken(user, 200, res);
+  createAndSendToken(user, 200, res, req);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -117,6 +126,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(
       new AppError("You are not logged in. Please login to get access", 401)
     );
+  }
+
+  if (token !== req.session.token) {
+    return next(new AppError("Invalid Login", 403));
   }
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -149,7 +162,7 @@ exports.refreshController = catchAsync(async (req, res, next) => {
 
   token = req.headers.authorization.split(" ")[1];
 
-  if (!token) {
+  if (!token || !req.session.token) {
     return next(new AppError("Please login", 400));
   }
 
@@ -176,7 +189,7 @@ exports.logout = catchAsync(async (req, res, next) => {
   }
 
   res.status(200).json({
-    status: 'success',
-    data: null
-  })
-})
+    status: "success",
+    data: null,
+  });
+});

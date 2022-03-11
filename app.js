@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const userRouter = require("./Routes/userRoutes");
 const globalErrorHandler = require("./Controller/errorController");
 
 dotenv.config();
@@ -64,11 +65,12 @@ app.use("/test", (req, res) => {
 
 app.use(express.json({ limit: "8mb" }));
 
+//All the routes comes here
+app.use("/api/v1/user", userRouter);
+
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
-
-//All the routes comes here
 
 //This is the global error handler
 app.use(globalErrorHandler);
