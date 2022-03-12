@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate: [validator.isEmail, "Please Enter A valid E-mail"],
     },
-    mobileNumber: {
+    contact: {
       type: Number,
       unique: true,
       required: [true, "Enter your mobile number."],
