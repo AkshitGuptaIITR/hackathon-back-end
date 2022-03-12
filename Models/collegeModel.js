@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Menu = require('./menuModel');
+const Menu = require("./menuModel");
 
 const collegeSchema = new mongoose.Schema(
   {
@@ -31,15 +31,15 @@ const collegeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-collegeSchema.pre(/^find/, async function(next){
+collegeSchema.pre(/^find/, async function (next) {
   this.populate({
-    path: 'topPicks.canteen topPicks.menu',
+    path: "topPicks.canteen topPicks.menu",
     strictPopulate: false,
-    select: 'name'
-  })
-  
-  next()
-})
+    select: "name",
+  });
+
+  next();
+});
 
 const College = mongoose.model("college", collegeSchema);
 

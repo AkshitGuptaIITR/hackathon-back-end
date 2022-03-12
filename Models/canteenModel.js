@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const menuSchema = new mongoose.Schema({
   image: String,
+  isAvailable: {
+    type: Boolean,
+    default: true,
+  },
   price: {
     type: Number,
     required: [true, "Please provide price."],
@@ -12,7 +16,15 @@ const menuSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["rolls", "patties", "burger", "chinese", "parathas", "beverages"],
+    enum: [
+      "rolls",
+      "patties",
+      "burger",
+      "chinese",
+      "parathas",
+      "beverages",
+      "sandwich",
+    ],
     required: [true, "Please provide category of food."],
   },
   timeEstimated: {

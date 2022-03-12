@@ -62,6 +62,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     );
   }
 
+  console.log(req.body);
   const newUser = await User.create(req.body);
 
   res.status(201).json({
@@ -71,29 +72,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     },
   });
 });
-
-// exports.signupCustomer = catchAsync(async (req, res, next) => {
-//   const { password, confirmPassword } = req.body;
-
-//   req.body.email = req.body.email.toLowerCase();
-//   req.body.role = undefined;
-
-//   if (!confirmPassword) {
-//     return next(
-//       new AppError("Please enter password and password Confirm."),
-//       400
-//     );
-//   }
-
-//   if (confirmPassword !== password) {
-//     return next(
-//       new AppError("Password and Password confirm doesnot match", 400)
-//     );
-//   }
-
-//   const newUser = await User.create(req.body);
-//   createAndSendToken(newUser, 201, res);
-// });
 
 exports.login = catchAsync(async (req, res, next) => {
   let { email, password } = req.body;

@@ -10,14 +10,15 @@ const {
 } = require("../Controller/canteenController");
 const router = express.Router();
 
-router
-  .route("/")
-  .get(protect, restrictTo("admin"), getAllCanteen)
+router.route("/").get(protect, restrictTo("admin"), getAllCanteen);
 
-router.route("/:collegeId").get(getAllCanteenByCollege).post(protect, createCanteen);
+router
+  .route("/:collegeId")
+  .get(getAllCanteenByCollege)
+  .post(protect, createCanteen);
 router
   .route("/:collegeId/:canteenId")
-  .get(protect, getMenuForCanteen)
+  .get(getMenuForCanteen)
   .post(protect, restrictTo("canteenWorker"), addNewItemMenu)
   .patch(protect, restrictTo("canteenWorker"), updateMenu);
 
