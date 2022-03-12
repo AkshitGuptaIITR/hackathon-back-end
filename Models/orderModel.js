@@ -9,9 +9,13 @@ const orderSchema = new mongoose.Schema(
     },
     orderDetail: [
       {
-        meal: {
-          type: mongoose.Schema.ObjectId,
-          required: [true, "Please provide meal data."],
+        name: {
+          type: String,
+          required: "Please provide Name of the order."
+        },
+        price: {
+          type: Number,
+          required: 'Please provide price for orders.'
         },
         quantity: {
           type: Number,
