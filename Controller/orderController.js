@@ -1,7 +1,7 @@
 const Order = require("../Models/orderModel");
 const catchAsync = require("../utils/catchAsync");
 
-exports.getAllOrders = catchAsync(async (req,res,next) => {
+exports.getAllOrders = catchAsync(async (req, res, next) => {
   const orders = await Order.find();
 
   res.status(200).json({
@@ -12,6 +12,19 @@ exports.getAllOrders = catchAsync(async (req,res,next) => {
   })
 })
 
-exports.createOrder = catchAsync(async (req,res,next) => {
-  const orders = await Order.create(req.body);
-})
+exports.createOrder = catchAsync(async (req, res, next) => {
+  const { collegeId, canteenId } = req.params;
+
+  const orders = await Order.create({
+    college: collegeId,
+    canteen: canteenId,
+    ...req.body,
+  });
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      orders
+    }
+  })
+});
