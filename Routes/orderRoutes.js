@@ -1,5 +1,5 @@
 const express = require("express");
-const { protect } = require("../Controller/authController");
+const { protect, restrictTo } = require("../Controller/authController");
 const {
   getAllOrders,
   createOrder,
@@ -11,14 +11,14 @@ const {
 } = require("../Controller/orderController");
 const router = express.Router();
 
-router.route("/").get(protect, getAllOrders);
+router.route("/").get(protect, restrictTo('admin'), getAllOrders);
 router
   .route("/:orderId")
-  .get(protect, getOrder)
-  .patch(protect, acceptOrder, completedOrder, deliveredOrder);
+  .get(protect, restrictTo('canteenWorker'), getOrder)
+  .patch(protect, restrictTo('canteenWorker'), acceptOrder, completedOrder, deliveredOrder);
 router
   .route("/:collegeId/:canteenId")
   .post(protect, createOrder)
-  .get(getAllOrdersForCanteen);
+  .get(protect, restrictTo('canteenWorker'),getAllOrdersForCanteen);
 
 module.exports = router;

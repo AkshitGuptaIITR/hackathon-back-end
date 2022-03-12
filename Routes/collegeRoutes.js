@@ -9,7 +9,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(protect, getAllCollege)
+  .get(getAllCollege)
   .post(protect, restrictTo("admin"), createCollege);
 
 router.route("/name").get(getAllCollegeNames);

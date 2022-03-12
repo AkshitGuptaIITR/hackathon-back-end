@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.route('/').get(protect, getAllReviews)
 
-router.route('/:canteenId').get(protect, getAllReviewsForCanteen);
+router.route('/:canteenId').get(getAllReviewsForCanteen);
 router.route('/:userId').get(protect, getAllReviewsByUser)
 router.route('/:canteenId/:userId').post(protect, restrictTo('student'), createReview);
 

@@ -15,7 +15,7 @@ router.route("/").get(protect, restrictTo("admin"), getAllCanteen);
 router
   .route("/:collegeId")
   .get(getAllCanteenByCollege)
-  .post(protect, createCanteen);
+  .post(protect, restrictTo('admin'), createCanteen);
 router
   .route("/:collegeId/:canteenId")
   .get(getMenuForCanteen)
