@@ -5,7 +5,8 @@ const {
   createCanteen,
   getAllCanteenByCollege,
   addNewItemMenu,
-  updateMenu
+  updateMenu,
+  getMenuForCanteen,
 } = require("../Controller/canteenController");
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router
 router.route("/:collegeId").get(protect, getAllCanteenByCollege);
 router
   .route("/:collegeId/:canteenId")
+  .get(protect, getMenuForCanteen)
   .post(protect, restrictTo("canteenWorker"), addNewItemMenu)
   .patch(protect, restrictTo("canteenWorker"), updateMenu);
 

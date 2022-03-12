@@ -76,10 +76,23 @@ exports.updateMenu = catchAsync(async (req, res, next) => {
     },
     {
       $set: {
-        menu: req.body,
+        "menu.$": req.body,
       },
     }
   );
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      canteen,
+    },
+  });
+});
+
+exports.getMenuForCanteen = catchAsync(async (req, res, next) => {
+  const { canteenId } = req.params;
+
+  const canteen = await Canteen.findOne({ _id: canteenId });
 
   res.status(200).json({
     status: "success",

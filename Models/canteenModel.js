@@ -8,7 +8,7 @@ const menuSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please enter name of Object."],
-    unique: [true, 'Please enter unique name.']
+    unique: [true, "Please enter unique name."],
   },
   category: {
     type: String,
