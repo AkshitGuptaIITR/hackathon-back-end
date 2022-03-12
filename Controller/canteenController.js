@@ -108,10 +108,42 @@ exports.getMenuForCanteen = catchAsync(async (req, res, next) => {
 
   const canteen = await Canteen.findOne({ _id: canteenId });
 
+  const menu = {
+    rolls: [],
+    patties: [],
+    burger: [],
+    chinese: [],
+    parathas: [],
+    beverages: [],
+    sandwich: [],
+  };
+
+  canteen.menu.map((data) => {
+    if(data.category === 'rolls'){
+      menu.rolls.push(data)
+    }else if(data.category === 'patties'){
+      menu.patties.push(data)
+    }else if(data.category === 'burger'){
+      menu.burger.push(data)
+    } else if(data.category === 'chinese'){
+      menu.chinese.push(data)
+    }else if(data.category === 'parathas'){
+      menu.parathas.push(data)
+    }else if(data.category === 'beverages'){
+      menu.beverages.push(data)
+    }else if(data.category === 'sandwich'){
+      menu.sandwich.push(data)
+    }
+
+    return data;
+  })
+
+
   res.status(200).json({
     status: "success",
     data: {
       canteen,
+      menu
     },
   });
 });
