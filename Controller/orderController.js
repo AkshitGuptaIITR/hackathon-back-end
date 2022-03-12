@@ -65,14 +65,18 @@ exports.getAllOrdersForCanteen = catchAsync(async (req, res, next) => {
     canteen: canteenId,
   }).populate({ path: "user", select: "name" });
 
-  let onGoingOrders = [], completedOrder = [];
-  
-  for(const i in orders){
-    if(orders[i].isCompleted){
-      completedOrder = [...completedOrder, orders[i]]
-    }else{
-      console.log('check')
-      onGoingOrders = [...onGoingOrders, orders[i]]
+  let onGoingOrders = [],
+    completedOrder = [],
+    processingData = [];
+
+  for (const i in orders) {
+    if (orders[i].isCompleted) {
+      completedOrder = [...completedOrder, orders[i]];
+    } else {
+      onGoingOrders = [...onGoingOrders, orders[i]];
+    }
+    if (orders[i].accepted === "processing") {
+      processingData = [...processingData, orders[i]];
     }
   }
 
@@ -81,7 +85,8 @@ exports.getAllOrdersForCanteen = catchAsync(async (req, res, next) => {
     data: {
       orders,
       onGoingOrders,
-      completedOrder
+      completedOrder,
+      processingData,
     },
   });
 });
