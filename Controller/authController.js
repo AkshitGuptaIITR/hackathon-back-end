@@ -44,19 +44,19 @@ const createAndSendToken = async (user, statusCode, res, req) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { password, passwordConfirm } = req.body;
+  const { password, confirmPassword } = req.body;
 
   req.body.role = undefined;
   req.body.email = req.body.email.toLowerCase();
 
-  if (!passwordConfirm) {
+  if (!confirmPassword) {
     return next(
       new AppError("Please enter password and password Confirm."),
       400
     );
   }
 
-  if (passwordConfirm !== password) {
+  if (confirmPassword !== password) {
     return next(
       new AppError("Password and Password confirm doesnot match", 400)
     );
@@ -73,19 +73,19 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 // exports.signupCustomer = catchAsync(async (req, res, next) => {
-//   const { password, passwordConfirm } = req.body;
+//   const { password, confirmPassword } = req.body;
 
 //   req.body.email = req.body.email.toLowerCase();
 //   req.body.role = undefined;
 
-//   if (!passwordConfirm) {
+//   if (!confirmPassword) {
 //     return next(
 //       new AppError("Please enter password and password Confirm."),
 //       400
 //     );
 //   }
 
-//   if (passwordConfirm !== password) {
+//   if (confirmPassword !== password) {
 //     return next(
 //       new AppError("Password and Password confirm doesnot match", 400)
 //     );

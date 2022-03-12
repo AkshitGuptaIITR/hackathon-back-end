@@ -43,11 +43,21 @@ exports.getAllReviewsByUser = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createReview = catchAsync(async (req,res,next) => {
-  const {canteenId, userId} = req.params.id;
+exports.createReview = catchAsync(async (req, res, next) => {
+  const { canteenId, userId } = req.params.id;
 
-  if(!canteenId || !userId){
-    return next(new AppError('Please provide '))
+  if (!canteenId || !userId) {
+    return next(new AppError("Please provide proper id.", 400));
   }
-})
 
+  req.body = { ...req.body, canteen: canteenId, user: userId };
+
+  const reviews = await Review.create(req.body);
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      reviews,
+    },
+  });
+});

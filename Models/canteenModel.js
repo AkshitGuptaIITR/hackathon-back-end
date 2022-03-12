@@ -8,32 +8,51 @@ const menuSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please enter name of Object."],
+    unique: [true, 'Please enter unique name.']
   },
-  photo: String
+  category: {
+    type: String,
+    enum: ["rolls", "patties", "burger", "chinese", "parathas", "beverages"],
+    required: [true, "Please provide category of food."],
+  },
+  photo: String,
 });
 
-const canteenSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Please enter name of canteen."],
+const canteenSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please enter name of canteen."],
+    },
+    menu: [menuSchema],
+    location: String,
+    averageRating: {
+      type: String,
+      min: 1,
+      max: 5,
+    },
+    reviews: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "review",
+      },
+    ],
+    college: {
+      type: mongoose.Schema.ObjectId,
+      ref: "college",
+      required: [true, "Please proide college info"],
+    },
   },
-  menu: [menuSchema],
-  location: String,
-  averageRating: {
-    type: String,
-    min: 1,
-    max: 5,
-  },
-  reviews: {
-    type: mongoose.Schema.ObjectId,
-    ref: "review",
-  },
-  college: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'College'
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
+);
+
+canteenSchema.pre(/^find/, async function (next) {
+  this.populate({
+    path: "college",
+    select: "name",
+  });
 });
 
 const Canteen = mongoose.model("Canteen", canteenSchema);

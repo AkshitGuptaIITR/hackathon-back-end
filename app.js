@@ -5,6 +5,9 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const userRouter = require("./Routes/userRoutes");
 const globalErrorHandler = require("./Controller/errorController");
+const collegeRouter = require("./Routes/collegeRoutes");
+const canteenRouter = require("./Routes/canteenRoutes");
+const AppError = require("./utils/appError");
 
 dotenv.config();
 
@@ -61,6 +64,8 @@ app.use(express.json({ limit: "8mb" }));
 
 //All the routes comes here
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/college", collegeRouter);
+app.use("/api/v1/canteen", canteenRouter);
 
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
     ],
     branch: String,
     year: Number,
-    degreee: String,
+    degree: String,
     favorites: Array,
     active: {
       type: Boolean,
@@ -48,8 +48,9 @@ const userSchema = new mongoose.Schema(
     photo: String,
     college: {
       type: mongoose.Schema.ObjectId,
-      required: 'College'
-    }
+      ref: "College",
+      required: [true, 'Please provide your college info.']
+    },
   },
   {
     timestamps: true,

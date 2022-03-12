@@ -7,8 +7,11 @@ const {
 } = require("../Controller/collegeController");
 const router = express.Router();
 
-router.route("/")
+router
+  .route("/")
   .get(protect, getAllCollege)
   .post(protect, restrictTo("admin"), createCollege);
 
-router.route('/name').get(getAllCollegeNames);
+router.route("/name").get(getAllCollegeNames);
+
+module.exports = router;

@@ -10,6 +10,7 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       min: 1,
       max: 5,
+      required: [true, 'Please provide rating of review.']
     },
     user: {
       type: mongoose.Schema.ObjectId,
