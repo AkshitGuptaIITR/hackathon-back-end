@@ -19,6 +19,6 @@ router
 router
   .route("/:collegeId/:canteenId")
   .post(protect, createOrder)
-  .get(protect, getAllOrdersForCanteen);
+  .get(getAllOrdersForCanteen);
 
 module.exports = router;

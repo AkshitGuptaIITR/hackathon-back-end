@@ -31,7 +31,6 @@ const menuSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please provide the estimated time."],
   },
-  photo: String,
 });
 
 const canteenSchema = new mongoose.Schema(
@@ -59,6 +58,7 @@ const canteenSchema = new mongoose.Schema(
       required: [true, "Please provide college info"],
     },
     image: String,
+    topPicks: [menuSchema],
   },
   {
     timestamps: true,

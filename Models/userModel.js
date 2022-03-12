@@ -59,6 +59,10 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    canteen: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Canteen",
+    },
   },
   {
     timestamps: true,
@@ -77,7 +81,7 @@ userSchema.pre(/^find/, function (next) {
 
 userSchema.pre(/^find/, async function (next) {
   this.populate({
-    path: "orders",
+    path: "orders canteen",
     select: "-__v",
   });
   next();
