@@ -13,9 +13,8 @@ const router = express.Router();
 router
   .route("/")
   .get(protect, restrictTo("admin"), getAllCanteen)
-  .post(protect, restrictTo("admin"), createCanteen);
 
-router.route("/:collegeId").get(protect, getAllCanteenByCollege);
+router.route("/:collegeId").get(getAllCanteenByCollege).post(protect, createCanteen);
 router
   .route("/:collegeId/:canteenId")
   .get(protect, getMenuForCanteen)

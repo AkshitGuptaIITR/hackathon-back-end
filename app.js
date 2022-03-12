@@ -7,6 +7,7 @@ const userRouter = require("./Routes/userRoutes");
 const globalErrorHandler = require("./Controller/errorController");
 const collegeRouter = require("./Routes/collegeRoutes");
 const canteenRouter = require("./Routes/canteenRoutes");
+const orderRouter = require('./Routes/orderRoutes');
 const AppError = require("./utils/appError");
 
 dotenv.config();
@@ -66,6 +67,7 @@ app.use(express.json({ limit: "8mb" }));
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/college", collegeRouter);
 app.use("/api/v1/canteen", canteenRouter);
+app.use("/api/v1/orders", orderRouter);
 
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

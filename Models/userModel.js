@@ -49,8 +49,16 @@ const userSchema = new mongoose.Schema(
     college: {
       type: mongoose.Schema.ObjectId,
       ref: "College",
-      required: [true, 'Please provide your college info.']
+      required: [true, "Please provide your college info."],
     },
+    moneylimit: {
+      type: Number,
+    },
+    notification: [
+      {
+        type: String,
+      },
+    ],
   },
   {
     timestamps: true,
@@ -64,6 +72,14 @@ userSchema.pre("save", async function (next) {
 
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
+  next();
+});
+
+userSchema.pre(/^find/, async function (next) {
+  this.populate({
+    path: "orders",
+    select: "-__v",
+  });
   next();
 });
 

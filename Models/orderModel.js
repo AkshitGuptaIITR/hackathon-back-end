@@ -9,20 +9,34 @@ const orderSchema = new mongoose.Schema(
     },
     orderDetail: [
       {
-        name: {
-          type: String,
-          required: "Please provide Name of the order."
+        menuId: {
+          type: mongoose.Schema.ObjectId,
+          ref: "menu",
         },
-        price: {
-          type: Number,
-          required: 'Please provide price for orders.'
-        },
+        name: String,
+        price: String,
         quantity: {
           type: Number,
           default: 1,
         },
       },
     ],
+    underProcess: {
+      type: Boolean,
+      default: true,
+    },
+    isCompleted: {
+      type: Boolean,
+      default: false,
+    },
+    isDelivered: {
+      type: Boolean,
+      default: false,
+    },
+    timeEstimated: {
+      type: Number,
+      required: [true, "Please provide the estimated time."],
+    },
     canteen: {
       type: mongoose.Schema.ObjectId,
       ref: "Canteen",
@@ -35,6 +49,7 @@ const orderSchema = new mongoose.Schema(
     },
     totalPrice: {
       type: Number,
+      required: [true, "Please provide total price."],
     },
     comment: String,
     isPaid: {
@@ -44,7 +59,17 @@ const orderSchema = new mongoose.Schema(
     modeOfPayment: {
       type: String,
       enum: ["cod", "online"],
+      required: [true, "Please provide the mode of payment."],
     },
+    typeOfOrder: {
+      type: String,
+      enum: ["delivery", "dinein", "pick-up"],
+      required: [true, "Please select type of order."],
+    },
+    accepted: {
+      type: String,
+      default: ['accepted', 'declined']
+    }
   },
   {
     timestamps: true,

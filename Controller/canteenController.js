@@ -1,4 +1,5 @@
-const Canteen = require("../Models/canteenModel");
+const { Canteen } = require("../Models/canteenModel");
+const College = require("../Models/collegeModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -14,7 +15,20 @@ exports.getAllCanteen = catchAsync(async (req, res, next) => {
 });
 
 exports.createCanteen = catchAsync(async (req, res, next) => {
-  const canteen = await Canteen.create(req.body);
+  const { collegeId } = req.params;
+
+  const canteen = await Canteen.create({ ...req.body, college: collegeId });
+
+  await College.findByIdAndUpdate(
+    {
+      _id: collegeId,
+    },
+    {
+      $push: {
+        canteens: canteen._id,
+      },
+    }
+  );
 
   res.status(201).json({
     status: "success",
