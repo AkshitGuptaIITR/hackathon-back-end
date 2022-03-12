@@ -65,10 +65,23 @@ exports.getAllOrdersForCanteen = catchAsync(async (req, res, next) => {
     canteen: canteenId,
   }).populate({ path: "user", select: "name" });
 
+  let onGoingOrders = [], completedOrder = [];
+  
+  for(const i in orders){
+    if(orders[i].isCompleted){
+      completedOrder = [...completedOrder, orders[i]]
+    }else{
+      console.log('check')
+      onGoingOrders = [...onGoingOrders, orders[i]]
+    }
+  }
+
   res.status(200).json({
     status: "success",
     data: {
       orders,
+      onGoingOrders,
+      completedOrder
     },
   });
 });

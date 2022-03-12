@@ -31,6 +31,7 @@ const menuSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please provide the estimated time."],
   },
+  description: String,
 });
 
 const canteenSchema = new mongoose.Schema(
