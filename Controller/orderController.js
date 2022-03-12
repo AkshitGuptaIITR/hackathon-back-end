@@ -83,7 +83,6 @@ exports.getAllOrdersForCanteen = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      orders,
       onGoingOrders,
       completedOrder,
       processingData,
@@ -96,8 +95,7 @@ exports.acceptOrder = catchAsync(async (req, res, next) => {
   const { orderId } = req.params;
 
   if (accepted) {
-    console.log("check");
-    const orders = await Order.findByIdAndUpdate(
+    await Order.findByIdAndUpdate(
       {
         _id: orderId,
       },
@@ -106,10 +104,32 @@ exports.acceptOrder = catchAsync(async (req, res, next) => {
       }
     );
 
+    const orders = await Order.find({
+      college: collegeId,
+      canteen: canteenId,
+    }).populate({ path: "user", select: "name" });
+  
+    let onGoingOrders = [],
+      completedOrder = [],
+      processingData = [];
+  
+    for (const i in orders) {
+      if (orders[i].isCompleted) {
+        completedOrder = [...completedOrder, orders[i]];
+      } else {
+        onGoingOrders = [...onGoingOrders, orders[i]];
+      }
+      if (orders[i].accepted === "processing") {
+        processingData = [...processingData, orders[i]];
+      }
+    }
+
     return res.status(200).json({
       status: "success",
       data: {
-        orders,
+        completedOrder,
+        processingData,
+        onGoingOrders,
       },
     });
   }
@@ -133,7 +153,7 @@ exports.completedOrder = catchAsync(async (req, res, next) => {
       }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       data: {
         orders,

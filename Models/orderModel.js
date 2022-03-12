@@ -35,7 +35,8 @@ const orderSchema = new mongoose.Schema(
     },
     timeEstimated: {
       type: Number,
-      required: [true, "Please provide the estimated time."],
+      default: 10,
+      // required: [true, "Please provide the estimated time."],
     },
     canteen: {
       type: mongoose.Schema.ObjectId,
