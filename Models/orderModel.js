@@ -68,7 +68,8 @@ const orderSchema = new mongoose.Schema(
     },
     accepted: {
       type: String,
-      default: ['accepted', 'declined']
+      default: ['accepted', 'declined', 'processing'],
+      default: "processing"
     }
   },
   {

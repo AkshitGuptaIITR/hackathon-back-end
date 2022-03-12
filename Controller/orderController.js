@@ -71,7 +71,7 @@ exports.acceptOrder = catchAsync(async (req, res, next) => {
   const { accepted } = req.body;
   const { orderId } = req.params;
 
-  if (accepted === 'declined') {
+  if (accepted) {
     const orders = await Order.findByIdAndUpdate({
       _id: orderId
     }, {
@@ -90,15 +90,41 @@ exports.acceptOrder = catchAsync(async (req, res, next) => {
 });
 
 exports.completedOrder = catchAsync(async (req, res, next) => {
-  const { orderId, isCompleted } = req.params;
+  const { orderId, isDelivered } = req.params;
 
-  if(!isCompleted){
+  if (!isDelivered) {
     const orders = await Order.findByIdAndUpdate({
       _id: orderId,
     }, {
-      isCompleted,
+      isCompleted: true,
       underProcess: false,
       isDelivered: false
     })
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        orders
+      }
+    })
   }
+
+  next();
+})
+
+exports.deliveredOrder = catchAsync(async (req, res, next) => {
+  const { orderId } = req.params;
+
+  const orders = await Order.findByIdAndUpdate({
+    _id: orderId
+  }, {
+    isDelivered: true,
+  })
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      orders
+    }
+  })
 })
