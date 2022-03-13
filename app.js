@@ -7,7 +7,7 @@ const userRouter = require("./Routes/userRoutes");
 const globalErrorHandler = require("./Controller/errorController");
 const collegeRouter = require("./Routes/collegeRoutes");
 const canteenRouter = require("./Routes/canteenRoutes");
-const orderRouter = require('./Routes/orderRoutes');
+const orderRouter = require("./Routes/orderRoutes");
 const AppError = require("./utils/appError");
 
 dotenv.config();
