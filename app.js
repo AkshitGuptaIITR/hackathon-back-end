@@ -31,8 +31,6 @@ const app = express();
 //   callback(null, corsOptions); // callback expects two parameters: error and options
 // };
 
-app.use(cors())
-
 app.use(express.json());
 
 const DB = process.env.DATABASE.replace(
@@ -56,7 +54,7 @@ app.use(
   })
 );
 
-app.use(cors(corsOptionsDelegate));
+app.use(cors());
 
 console.log(process.env.NODE_ENV);
 
