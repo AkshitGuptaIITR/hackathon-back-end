@@ -15,6 +15,7 @@ dotenv.config();
 const app = express();
 
 const allowList = [process.env.ALLOWED_URL_1, process.env.ALLOWED_URL_2];
+console.log(process.env.ALLOWED_URL_2)
 
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions = {
