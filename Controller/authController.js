@@ -106,9 +106,9 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  if (token !== req.session.token) {
-    return next(new AppError("Invalid Login", 403));
-  }
+  // if (token !== req.session.token) {
+  //   return next(new AppError("Invalid Login", 403));
+  // }
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
